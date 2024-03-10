@@ -34,7 +34,7 @@ const otpController = {
                 }
             }
             // sending mail to Agent
-            const data = { To: email,userName: agent.name, code: otp.toString(), From: `${OWNER_EMAIL}`, MailName: "", Subject: "Regarding OTP", company: "LoanCorner", TemplateId: `${TEMPLATE_ID_FORGOT_PASSWORD}` }
+            const data = { To: email,userName: agent.name, code: otp.toString(), From: `${OWNER_EMAIL}`, MailName: "", Subject: "Regarding OTP", company: "Kraftbase", TemplateId: `${TEMPLATE_ID_FORGOT_PASSWORD}` }
             KafkaService.send([data]);
             const ttl = 60 * 10; // for 10 mins
             const ok = RedisService.createRedisClient().set(email, otp, "EX", ttl);
