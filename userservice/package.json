@@ -1,12 +1,8 @@
 {
-  "name": "kraft-base",
+  "name": "user_service",
   "version": "1.2.0",
-  "description": "This KraftBase project developed by Om Prakash Bairwa [Royal_IITian] ",
-  "main": "index.js",
-  "engines": {
-    "node": "~21.0.0",
-    "npm": "~10.2.0"
-  },
+  "description": "This user service developed by Om Prakash Bairwa [Royal_IITian] ",
+  "main": "server.js",
   "scripts": {
     "dev": "nodemon -r esm server.js",
     "start": "node -r esm server.js"
@@ -25,8 +21,7 @@
     "ioredis": "^5.0.4",
     "joi": "^17.6.0",
     "jsonwebtoken": "^8.5.1",
-    "kafkajs": "^2.2.4",
-    "mongoose": "^5.12.13",
+    "mongoose": "^6.7.3",
     "nodemon": "^2.0.16",
     "prom-client": "^15.1.0",
     "redis": "^4.1.0",

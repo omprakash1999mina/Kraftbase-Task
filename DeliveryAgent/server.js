@@ -14,7 +14,7 @@ import PrometheusMetricsController from './Services/Prometheus';
 
 //Database connection
 try {
-  mongoose.connect(DB_URL, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
+  mongoose.connect(DB_URL, { useNewUrlParser: true, useUnifiedTopology: true});
   const db = mongoose.connection;
   db.on('error', console.error.bind(console, 'connection error:'));
   db.once('open', () => {
