@@ -9,13 +9,15 @@ const orderController = {
             return next(error);
         }
         try {
-            const {orderId,status} = req.body;
+            const status_Array= ["Placed","Accepted","Rejected","In Process","Ready","Out For Delivery"]
+            const {orderId,status_id} = req.body;
             // const {orderId,customerId,status} = req.body;
-            let document = await Order.findOneAndUpdate({ _id: orderId }, {
-                status,
+            if (status_id<0 || status_id>5) return next(CustomErrorHandler.badRequest());
+
+            await Order.findOneAndUpdate({ _id: orderId }, {
+                status: status_Array[status_id],
                 updatedBy: customerId
             });
-            // console.log(document);
         } catch (err) {
             return next(CustomErrorHandler.serverError());
         }
