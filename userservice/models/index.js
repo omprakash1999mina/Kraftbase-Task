@@ -1,1 +1,5 @@
 export {default as User} from './user';
+export {default as Menu} from './menu';
+export {default as Order} from './order';
+export {default as Feedback} from './feedback';
+export {default as Restaurant} from './restaurant';

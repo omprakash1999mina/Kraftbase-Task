@@ -15,6 +15,7 @@ const orderController = {
             if (status_id < 0 || status_id > 5) return next(CustomErrorHandler.badRequest());
             let agentId="Not Assigned";
             if(status_id==4) agentId=assignAgent();
+            const customerId = req.user._id;
             await Order.findOneAndUpdate({ _id: orderId }, {
                 status: status_Array[status_id],
                 agentId,

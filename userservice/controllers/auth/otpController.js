@@ -35,7 +35,7 @@ const otpController = {
             }
             // sending mail to user
             // let success;
-            const data = { To: email,userName: user.userName, code: otp.toString(), From: `${OWNER_EMAIL}`, MailName: "", Subject: "Regarding OTP", company: "LoanCorner", TemplateId: `${TEMPLATE_ID_FORGOT_PASSWORD}` }
+            const data = { To: email,userName: user.userName, code: otp.toString(), From: `${OWNER_EMAIL}`, MailName: "", Subject: "Regarding OTP", company: "Kraftbase", TemplateId: `${TEMPLATE_ID_FORGOT_PASSWORD}` }
             KafkaService.send([data]);
             // console.log(data)
             // if (success) {
@@ -43,7 +43,6 @@ const otpController = {
             const ttl = 60 * 10; // for 10 mins
             const ok = RedisService.createRedisClient().set(email, otp, "EX", ttl);
             if (!ok) {
-                Logger.error("OTP SEND", "error in setup the otp in redis !!");
                 discord.SendErrorMessageToDiscord(email, "OTP SEND", "error in setup the otp in redis !!");
                 return next(CustomErrorHandler.serverError());
             }
@@ -54,7 +53,6 @@ const otpController = {
             // }
 
         } catch (err) {
-            Logger.error("OTP SEND", err);
             discord.SendErrorMessageToDiscord(req.body.email, "OTP SEND", err);
             return next(CustomErrorHandler.serverError());
         }
