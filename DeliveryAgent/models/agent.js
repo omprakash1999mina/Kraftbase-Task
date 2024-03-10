@@ -11,3 +11,7 @@ const agentSchema = new Schema({
 }, { timestamps: true });
 
 export default mongoose.model('Agent', agentSchema, 'agents');
+
+
+
+
