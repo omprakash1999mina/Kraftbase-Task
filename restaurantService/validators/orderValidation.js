@@ -5,7 +5,6 @@ const orderSchema = Joi.object({
     name : Joi.string().required(),
     items: Joi.object().required(),
     phone: Joi.string().required(),
-    totalGrand: Joi.number().required(),
     address: Joi.string().required()
 });
 

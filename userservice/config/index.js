@@ -6,8 +6,6 @@ export const {
     DEBUG_MODE,
     OWNER_EMAIL,
     DB_URL,
-    APP_URL,
-    WEB_URL,
     JWT_SECRET,
     REFRESH_SECRET,
 

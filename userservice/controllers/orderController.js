@@ -18,8 +18,8 @@ const orderController = {
             if (exist) {
                 let document;
                 try {
-                    let restaurant = Restaurant.findOne({_id: restaurantId});
-                    if(restaurantId.status != "Available") next(CustomErrorHandler.badRequest("Restaurant is unavailable or Offline."));
+                    let rest = Restaurant.findOne({_id: restaurantId});
+                    if(rest.status != "Available") next(CustomErrorHandler.badRequest("Restaurant is unavailable or Offline."));
                     let menu = await Menu.findOne({ restaurantId });
                     let totalGrand = 0;
                     items.forEach(it => {

@@ -8,7 +8,7 @@ router.post('/restaurants/update', [auth], userController.update);
 router.post('/restaurants/login', loginController.login);
 router.post('/restaurants/logout', loginController.logout);
 router.post('/restaurants/refresh', refreshController.refresh);
-router.get('/restaurants/:id', [auth], userController.getrestaurantsOne);
+router.get('/restaurants/:id', [auth], userController.getUsersOne);
 router.post('/restaurants/email/verify', otpController.send);
 router.post('/restaurants/forgot/password', forgotPasswordController.forgot);
 
