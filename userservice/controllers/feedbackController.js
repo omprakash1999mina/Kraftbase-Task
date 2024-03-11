@@ -12,8 +12,8 @@ const feedbackController = {
 
         try {
             const { userName, email, message } = req.body;
-            const found = await Feedback.exists({ email });
-            if(found) next(CustomErrorHandler.alreadyExist());
+            // const found = await Feedback.exists({ email });
+            // if(found) next(CustomErrorHandler.alreadyExist("Feedback already exist"));
             const exist = await User.exists({ email });
             // console.log(exist)
             let document;
