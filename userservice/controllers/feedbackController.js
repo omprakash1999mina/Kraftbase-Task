@@ -7,7 +7,7 @@ const feedbackController = {
     async post(req, res, next) {
         const { error } = feedbackValidation.validate(req.body);
         if (error) {
-            return next(error);
+            return next(CustomErrorHandler.badRequest());
         }
 
         try {
