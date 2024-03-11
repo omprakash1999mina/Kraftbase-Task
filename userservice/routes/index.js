@@ -18,7 +18,7 @@ router.get('/menu/:id', restaurantController.get_Menu);
 
 router.post('/order/place', [auth], orderController.place);
 router.get('/order/:id', [auth], orderController.get_Order_One);
-router.get('/order/all', [auth], orderController.get_Order_All);
+router.get('/order/get/all', [auth], orderController.get_Order_All);
 
 router.post('/feedback/post', [auth], feedbackController.post);
 router.get('/feedback/get/all', [admin], feedbackController.get_All);

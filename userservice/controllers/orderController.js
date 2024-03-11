@@ -57,10 +57,11 @@ const orderController = {
         try {
             document = await Order.find({ _id: req.params.id }).select('-__v -updatedAt -customerId');
             if (!document) {
-                discord.SendErrorFeedbackToDiscord(req.params.id, "Order Find One", "No such Order in DB");
+                discord.SendErrorMessageToDiscord(req.params.id, "Order Find One", "No such Order in DB");
                 return next(CustomErrorHandler.badRequest("No such Order exist."));
             }
         } catch (err) {
+            discord.SendErrorMessageToDiscord(req.params.id, "Order Find One", err);
             return next(CustomErrorHandler.serverError());
         }
         res.json(document);
@@ -72,10 +73,11 @@ const orderController = {
             let id = req.user._id;
             document = await Order.find({customerId: id}).select('-__v -updatedAt -customerId');
             if (!document) {
-                discord.SendErrorFeedbackToDiscord(req.params.id, "Order Find All", "No such Orders in DB");
+                discord.SendErrorMessageToDiscord(id, "Order Find All", "No such Orders in DB");
                 return next(CustomErrorHandler.badRequest("No such Orders exist."));
             }
         } catch (err) {
+            discord.SendErrorMessageToDiscord(id, "Order Find All", err);
             return next(CustomErrorHandler.serverError());
         }
         res.json(document);
