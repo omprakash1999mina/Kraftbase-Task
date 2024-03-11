@@ -11,12 +11,12 @@ const feedbackController = {
         }
 
         try {
-            const { name, email, message } = req.body;
+            const { userName, email, message } = req.body;
             const exist = await User.exists({ email });
             // console.log(exist)
             if (exist) {
                 await Feedback.create({
-                    name,
+                    userName,
                     email,
                     message,
                 });
