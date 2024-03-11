@@ -41,7 +41,7 @@ const orderController = {
             const order_data = await Order.find({ restaurantId: restaurantId }).select('-__v ');
             res.status(200).json(order_data);
         } catch (err) {
-            console.log(err)
+            // console.log(err)
             discord.SendErrorMessageToDiscord(restaurantId,"Get all Orders",err);
             return next(CustomErrorHandler.serverError());
         }
