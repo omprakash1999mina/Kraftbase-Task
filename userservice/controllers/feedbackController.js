@@ -39,7 +39,7 @@ const feedbackController = {
                 discord.SendErrorMessageToDiscord(req.params.id, "contact us Feedback delete", "No such data in db for delete");
                 return next(new Error("No such data for Delete."));
             }
-            res.status(200).json("Successfully deleted.");
+            res.status(200).json({msg:"Successfully deleted."});
         } catch (err) {
             discord.SendErrorMessageToDiscord(req.params.id, "Feedback delete", err);
             return next(CustomErrorHandler.serverError());
