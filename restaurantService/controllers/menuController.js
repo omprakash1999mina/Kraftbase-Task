@@ -1,27 +1,36 @@
-import { Order, User, Menu } from "../models";
+import { Order, User, Menu, Restaurant } from "../models";
 import CustomErrorHandler from '../Services/CustomerrorHandler';
-import { OrderValidation } from '../validators';
+import { MenuValidation } from '../validators';
+import discord from '../Services/discord';
 
 const menuController = {
     async create(req, res, next) {
         // console.log(req.user);
         const { error } = MenuValidation.validate(req.body);
-        if (error) return next(error);
-
+        if (error) return next(CustomErrorHandler.badRequest());
+        const restaurantId = req.user._id;
+        let document;
         try {
-            const { restaurantId, items } = req.body;
+            const { items } = req.body;
             // items = [{name: chicken, price: 200, availability: true}]
+            const exist = await Menu.findOne({ restaurantId: restaurantId });
+            if (exist) return next(CustomErrorHandler.badRequest("Menu Already Exist."))
             try {
-                await Menu.create({
+                document = await Menu.create({
                     restaurantId,
                     items
                 });
+                const rest = await Restaurant.findOneAndUpdate({_id: restaurantId},{
+                    menuId: document._id
+                });
+                if(!rest) discord.SendErrorMessageToDiscord(restaurantId,"Create Menu", "Error in update restaurant menu id");
                 // console.log(document);
             } catch (err) {
-                return next(err);
+                return next(CustomErrorHandler.serverError(err));
             }
-            res.status(201).json({ msg: "Order Palaced Successfully." });
+            res.status(201).json({ menuId: document._id, msg: "Menu created Successfully." });
         } catch (err) {
+            discord.SendErrorMessageToDiscord(restaurantId,"Create Menu", err);
             return next(CustomErrorHandler.serverError());
         }
     },

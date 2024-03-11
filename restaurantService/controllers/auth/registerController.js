@@ -17,8 +17,7 @@ const registerController = {
             email: Joi.string().email().required(),
             address: Joi.string().required(),
             menuId: Joi.string().required(),
-            storeOpen: Joi.string().required(),
-            storeClose: Joi.string().required(),
+            status_id: Joi.number().required(),
             password: Joi.string().min(8).max(50).required()
         });
 
@@ -36,8 +35,10 @@ const registerController = {
         } catch (err) {
             return next(err);
         }
-        const { userName, email, storeOpen, storeClose, address, menuId, password } = req.body;
+        const { userName, email, status_id, address, menuId, password } = req.body;
         const hashedPassword = await bcrypt.hash(password, 10);
+        const status_Array = ["Available","Closed"];
+        if(status_id<0 || status_id>1) return next(CustomErrorHandler.badRequest());
 
         let document;
         let access_token;
@@ -49,8 +50,7 @@ const registerController = {
                 email,
                 menuId,
                 address,
-                storeOpen,
-                storeClose,
+                status: status_Array[status_id],
                 password: hashedPassword
             });
             // console.log(document);

@@ -16,21 +16,19 @@ const loginController = {
             password: Joi.string().required(),
         });
         // password: Joi.string().pattern(new RegExp('^[a-zA-Z0-9]{3,30}$@')).required(),
-
-        console.log(req.body);
+        // console.log(req.body);
         const { error } = loginSchema.validate(req.body);
         if (error) {
-            return next(error);
+            return next(CustomErrorHandler.badRequest());
         }
 
         try {
             const { email } = req.body;
             const user = await Restaurant.findOne({ email: req.body.email });
-
             if (!user) {
                 return next(CustomErrorHandler.wrongCredentials());
             }
-
+            // console.log(user)
             const match = await bcrypt.compare(req.body.password, user.password);
             if (!match) {
                 return next(CustomErrorHandler.wrongCredentials());
@@ -51,6 +49,7 @@ const loginController = {
             // await RefreshToken.create({ refresh_token: refresh_token });
             res.status(200).json({ id, access_token, refresh_token });
         } catch (err) {
+            // console.log(err)
             discord.SendErrorMessageToDiscord(req.body.email, "Login", err);
             return next(CustomErrorHandler.serverError());
         }

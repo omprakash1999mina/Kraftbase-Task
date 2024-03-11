@@ -1,6 +1,5 @@
 import { Restaurant } from "../../models";
 import CustomErrorHandler from "../../Services/CustomerrorHandler";
-import bcrypt from 'bcrypt';
 import Joi from 'joi';
 
 const userController = {
@@ -22,8 +21,7 @@ const userController = {
             email: Joi.string().email().required(),
             address: Joi.string().required(),
             menuId: Joi.string().required(),
-            storeOpen: Joi.string().required(),
-            storeClose: Joi.string().required(),
+            status_id: Joi.number().required(),
             password: Joi.string().min(8).max(50).required()
         });
 
@@ -39,14 +37,18 @@ const userController = {
                 return next(CustomErrorHandler.badRequest());
             }
 
-            const { userName, email, storeOpen, storeClose, address, menuId } = req.body;
-            await Restaurant.findOneAndUpdate({ _id: req.user._id}, {
+            const { userName, email, status_id, address, menuId, password } = req.body;
+            const hashedPassword = await bcrypt.hash(password, 10);
+            const status_Array = ["Available","Closed"];
+            if(status_id<0 || status_id>1) return next(CustomErrorHandler.badRequest());
+
+            await Restaurant.findOneAndUpdate({ _id: req.user._id }, {
                 userName,
                 email,
                 menuId,
                 address,
-                storeOpen,
-                storeClose
+                status: status_Array[status_id],
+                password: hashedPassword
             }).select('-updatedAt -__v -createdAt');
         } catch (err) {
             discord.SendErrorMessageToDiscord(req.body.email, "Update User", err);
