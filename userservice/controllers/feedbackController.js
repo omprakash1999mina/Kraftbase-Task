@@ -22,11 +22,11 @@ const feedbackController = {
                 });
             }
             else {
-                discord.SendErrorFeedbackToDiscord(email, "contact us Feedback", "user not found in db/not registered");
+                discord.SendErrorMessageToDiscord(email, "contact us Feedback", "user not found in db/not registered");
                 return next(CustomErrorHandler.badRequest("User not registered"));
             }
         } catch (err) {
-            discord.SendErrorFeedbackToDiscord(req.body.email, "contact us Feedback", err);
+            discord.SendErrorMessageToDiscord(req.body.email, "contact us Feedback", err);
             return next(err);
         }
         res.status(201).json({ message: "Feedback posted Successfully." });
@@ -35,12 +35,12 @@ const feedbackController = {
         try {
             const document = await Feedback.findOneAndRemove({ _id: req.params.id });
             if (!document) {
-                discord.SendErrorFeedbackToDiscord(req.params.id, "contact us Feedback delete", "No such data in db for delete");
+                discord.SendErrorMessageToDiscord(req.params.id, "contact us Feedback delete", "No such data in db for delete");
                 return next(new Error("No such data for Delete."));
             }
             res.status(200).json("Successfully deleted.");
         } catch (err) {
-            discord.SendErrorFeedbackToDiscord(req.params.id, "Feedback delete", err);
+            discord.SendErrorMessageToDiscord(req.params.id, "Feedback delete", err);
             return next(CustomErrorHandler.serverError());
         }
     },
@@ -51,7 +51,7 @@ const feedbackController = {
             // document = await Product.find().select('-updatedAt -__v -createdAt').sort({_id: -1});
             document = await Feedback.find().select('-__v -updatedAt');
             if (!document) {
-                discord.SendErrorFeedbackToDiscord("Find All", "Feedback Find All", "No such feedback");
+                discord.SendErrorMessageToDiscord("Find All", "Feedback Find All", "No such feedback");
                 return next(CustomErrorHandler.badRequest("No such feedback."));
             }
         } catch (err) {
@@ -64,7 +64,7 @@ const feedbackController = {
         try {
             document = await Feedback.find({ _id: req.params.id }).select('-__v -updatedAt');
             if (!document) {
-                discord.SendErrorFeedbackToDiscord(req.params.id, "Feedback Find One", "No such feedback");
+                discord.SendErrorMessageToDiscord(req.params.id, "Feedback Find One", "No such feedback");
                 return next(CustomErrorHandler.badRequest("No such feedback."));
             }
         } catch (err) {
