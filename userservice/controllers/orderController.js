@@ -55,7 +55,7 @@ const orderController = {
     async get_Order_One(req, res, next) {
         let document;
         try {
-            document = await Order.find({ customerId: req.params.id }).select('-__v -updatedAt -customerId');
+            document = await Order.find({ _id: req.params.id }).select('-__v -updatedAt -customerId');
             if (!document) {
                 discord.SendErrorFeedbackToDiscord(req.params.id, "Order Find One", "No such Order in DB");
                 return next(CustomErrorHandler.badRequest("No such Order exist."));
