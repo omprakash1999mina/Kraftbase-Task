@@ -14,6 +14,7 @@ router.post('/restaurants/forgot/password', forgotPasswordController.forgot);
 
 router.post('/orders/status/update', [auth], orderController.update_status);
 router.get('/orders/:id', [auth], orderController.get_status);
+router.get('/orders/all', [auth], orderController.get_All);
 
 router.post('/menu/create', [auth], menuController.create);
 router.post('/menu/update', [auth], menuController.update);
