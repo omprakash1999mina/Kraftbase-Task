@@ -14,8 +14,9 @@ const feedbackController = {
             const { userName, email, message } = req.body;
             const exist = await User.exists({ email });
             // console.log(exist)
+            let document;
             if (exist) {
-                await Feedback.create({
+                document = await Feedback.create({
                     userName,
                     email,
                     message,
@@ -25,11 +26,11 @@ const feedbackController = {
                 discord.SendErrorMessageToDiscord(email, "contact us Feedback", "user not found in db/not registered");
                 return next(CustomErrorHandler.badRequest("User not registered"));
             }
+            res.status(201).json({ id: document._id,message: "Feedback posted Successfully." });
         } catch (err) {
             discord.SendErrorMessageToDiscord(req.body.email, "contact us Feedback", err);
             return next(err);
         }
-        res.status(201).json({ message: "Feedback posted Successfully." });
     },
     async destroy(req, res, next) {
         try {

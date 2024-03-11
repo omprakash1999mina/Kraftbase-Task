@@ -10,7 +10,7 @@ const admin = async (req, res, next) => {
         const { _id } = JwtService.verify(token);
         const user = { _id }
         req.user = user;
-        const users = User.findOne({ _id: _id })
+        const users = await User.findOne({ _id: _id })
         if (users && users.role == "admin") next();
         else next(CustomErrorHandler.unAuthorized());
     } catch (err) {
