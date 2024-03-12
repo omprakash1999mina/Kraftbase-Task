@@ -68,7 +68,7 @@ npm start
 3. Build Docker image 
 
 ```bash
-    docker build -t <image_name>
+    docker build -t <image_name> .
 ```
 
 4. Build Docker image 
